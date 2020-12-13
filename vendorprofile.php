@@ -1,26 +1,20 @@
 <?php
 require 'includes/init.php';
-if(isset($_SESSION['guide_id']) && isset($_SESSION['email'])){
-    if(isset($_GET['id'])){
-        $user_data = $user_obj->find_user_by_id($_GET['id']);
-        $guide_data = $guide_obj->find_guide_by_id($_SESSION['guide_id']);
-        if($user_data ===  false){
-            header('Location: userprofile.php');
-            exit;
 
-        }
+if(isset($_SESSION['vendor_id']) && isset($_SESSION['email'])){
+    $vendor_id = $_SESSION['vendor_id'];
+    $vendor_data = $vendor_obj->find_vendor_by_id($_SESSION['vendor_id']);
+    if($vendor_data ===  false){
+        header('Location: logout.php');
+        exit;
     }
 }
 else{
     header('Location: logout.php');
     exit;
 }
-
-$check_req_receiver = $frnd_obj->am_i_the_req_receiver($_SESSION['guide_id'], $user_data->userid);
-// TOTAL REQUESTS
-$get_req_num = $frnd_obj->request_notification($_SESSION['guide_id'], false);
-// TOTAL FRIENDS
-$get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['guide_id'], false);
+$all_product = $frnd_obj->showvendorproductlist($vendor_id, true);
+$product_count = $frnd_obj->showvendorproductlist($vendor_id, false);
 ?>
 
 <!doctype html>
@@ -32,11 +26,11 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['guide_id'], false);
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="eachprofile.css">
+    <link rel="stylesheet" href="guideprofile.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
-    <title>View Profile</title>
+    <title>Home</title>
   </head>
   <body>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -48,10 +42,10 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['guide_id'], false);
 <span class="nav-logo"><img href="#"src="images/logo.png" alt="LOGO"  width='140' height='70';></span>
 <ul class='navbar-nav mr-auto'>
 <li class='nav-item active'>
-    <a class='nav-link' href='./guideprofile.php'><span class="fa fa-home fa-lg"></span> Home <span class="badge navbar-text"><?php echo $get_req_num;?></a>
+    <a class='nav-link' href='#'><span class="fa fa-home fa-lg"></span> Products <span class="badge navbar-text"><?php echo $product_count;?></a>
 </li>
-<li class='nav-item '>
-    <a class='nav-link' href='./guidebookings.php'><span class="fa fa-ticket fa-lg"></span> Bookings <span class="badge navbar-text"><?php echo $get_frnd_num;?></span></a>
+<li class='nav-item'>
+    <a class='nav-link' href='./vendoraddproduct.php'><span class="fa fa-ticket fa-lg"></span>Add Product</a>
 </li>
 <li class='nav-item'>
     <a class='nav-link' href='#contactus'><span class="fa fa-address-card fa-lg"></span> Contact Us</a>
@@ -59,10 +53,10 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['guide_id'], false);
 </ul>
 <ul class='navbar-nav ml-auto'>
 <li class='nav-item'>
-<span class='navbar-text' href='#'> Welcome, <?php echo  $guide_data->guidename;?></span>
+<span class='navbar-text' href='#'> Welcome, <?php echo  $vendor_data->vendorname;?></span>
 </li>
 <li class='nav-item'>
-<img class='img-fluid' height='50' width='50' src="profile_images/<?php echo $guide_data->guide_image; ?>" alt="Profile image">
+<img class='img-fluid' height='50' width='50' src="profile_images/vendor/<?php echo $vendor_data->vendor_image; ?>" alt="Profile image">
 </li>
 <li class='nav-item'>
 <li><a class='nav-link' href="logout.php" rel="noopener noreferrer"><span class="fa fa-sign-out fa-lg"></span> Logout</a></li>
@@ -70,77 +64,45 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['guide_id'], false);
 </ul>
 </div>
 </nav>
+<br/>
+<div>
+    <h1 style="text-align:center; margin-top: 40px;">Product list</h1>
+    <div class="container">                    
+<?php
+              
+                    if($product_count>0){
+                        echo'<div class="row main-row">';
+                        foreach($all_product as $row){
+                            echo '<div class="col md-4 mb-5">
+                            <div class="card p-3" style="width: 18rem;">
+                                    <img class="card-img-top shadow" src="products/'.$row->productimage.'" alt="Profile image" >
+                                    <div class="card-body">
+                                    <h5 class="card-title">'.$row->productname.'</h5>
+                                    <p class="card-text">Rs '.$row->price.'</p>
+                                    <a href="productprofile.php?id='.$row->productid.'" class="btn btn-outline-dark">See profile</a>
+                                    </div>
+                                    </div>
+                                </div>';
+                        }
+                        echo'</div></div>';
+                    }
+                    else{
+                        echo '<h3 class="nouser">You have no Products for now!</h3><br/>';
+                    }
+                    
+            
+       
+?>
+</div>
 
-<div class="container"> 
-                <br/>
-            <h1 style="text-align:center;"><?php echo  $user_data->username;?>'s profile</h1>
-             <div class="row d-flex justify-content-center">
-                 <div class="col md-10 mt-5 pt-5">
-                   <div class="row z-depth-3">
-                        <div class="col-sm-4 userimage ">
-                                <div class="card-block text-center">
-                                <img src="profile_images/<?php echo $user_data->user_image; ?>" alt="Profile image" width='340px' height='auto'>
-                                </div>
-                            </div>
-                            <div class="col-sm-8 userdetails">
-                                <h3 class="mt-3 text-center font-weight-bold">INFORMATION</h3>
-                                <hr class="badge-primary mt-0 wd-25">
-                                    <div class="row">
-                                            <div class="col-sm-6">
-                                                <p class="font-weight-bold">NAME</p>
-                                                <h6 class="text-muted"><?php echo  $user_data->username;?></h6>
-                                                <br/>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="font-weight-bold">CITY</p>
-                                                <h6 class="text-muted"><?php echo  "$user_data->city";?></h6>
-                                                <br/>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="font-weight-bold">GENDER</p>
-                                                <h6 class="text-muted"><?php echo  "$user_data->gender";?></h6>
-                                                <br/>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <p class="font-weight-bold">EMAIL</p>
-                                                <h6 class="text-muted"><?php echo  "$user_data->user_email";?></h6>
-                                                <br/>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <p class="font-weight-bold">BIO</p>
-                                                <h6 class="text-muted"><?php echo  "$user_data->bio";?></h6>
-                                                <br/>
-                                            </div>
-                                     </div>
-                                             
-                            </div>
-                             </div>
-                         </div>
-                    </div>
-                 </div>
-                 <br/>    
-                 
-      
-            <div class="actions">
-                <?php
-                if($check_req_receiver){
-                    echo '<div class="text-center"><a href="guidefunctions.php?action=ignore_req&id='.$user_data->userid.'" class="req_actionBtn ignoreRequest btn btn-outline-danger">Ignore</a>
-                    <a href="guidefunctions.php?action=accept_req&id='.$user_data->userid.'" class="req_actionBtn acceptRequest btn btn-outline-success">Accept</a></div><br/>';
-                }
-                else{
-                    exit;
-                }
-                ?>
-            </div>
-        
-            <footer id='contactus' class="footer">
+<footer id='contactus' class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-4 col-sm-2">
                     <h5>Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="./guideprofile.php">Home</a></li>
-                        <li><a href="./guidebookings.php">Bookings</a></li>
+                        <li><a href="./vendorprofile.php">Home</a></li>
+                        <li><a href="./vendorbookings.php">Bookings</a></li>
                     </ul>
                 </div>
                 <div class="col-7 col-sm-5">
@@ -215,11 +177,9 @@ $(document).ready(function(){
   });
 });
 
-/*
-$(window).scroll(function(){
+/*(window).scroll(function(){
     $('nav').toggleClass('scrolled', $(this).scrollTop()>200);
-});
-*/
+});*/
 </script>
 
     <!-- Option 2: jQuery, Popper.js, and Bootstrap JS

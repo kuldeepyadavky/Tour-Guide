@@ -7,15 +7,13 @@ if(isset($_SESSION['user_id']) && isset($_SESSION['email'])){
         exit;
     }
     // FETCH ALL USERS WHERE ID IS NOT EQUAL TO MY ID
-    $all_guide = $guide_obj->all_guide();
+    $allproduct = $frnd_obj->allproduct();
     
 }
 else{
     header('Location: logout.php');
     exit;
 }
-// REQUEST NOTIFICATION NUMBER
-$get_req_num = $frnd_obj->request_notification($_SESSION['user_id'], false);
 // TOTAL FRIENDS
 $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
 ?>
@@ -26,17 +24,15 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="aboutus.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="userprofile.css">
 
-    <title>About Us</title>
+    <title>Home</title>
   </head>
   <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <button class='navbar-toggler'  data-toggle='collapse' data-target='#collapse_target'>
         <span class='navbar-toggler-icon'></span>
@@ -45,9 +41,8 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
 <div class='collapse navbar-collapse' id='collapse_target'>
 <span class="nav-logo"><img href="#"src="images/logo.png" alt="LOGO"  width='140'
     height='70';></span>
-
 <ul class='navbar-nav mr-auto'>
-<li class='nav-item'>
+<li class='nav-item active'>
     <a class='nav-link' href='./redirect.php'><span class="fa fa-home fa-lg"></span> Home</a>
 </li>
 <li class='nav-item'>
@@ -55,9 +50,6 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
 </li>
 <li class='nav-item'>
     <a class='nav-link' href='./userbookings.php'><span class="fa fa-ticket fa-lg"></span> Bookings <span class="badge navbar-text"><?php echo $get_frnd_num;?></span></a>
-</li>
-<li class='nav-item active'>
-    <a class='nav-link' href='#'><span class="fa fa-info fa-lg"></span> About Us</a>
 </li>
 <li class='nav-item'>
     <a class='nav-link' href='#contactus'><span class="fa fa-address-card fa-lg"></span> Contact Us</a>
@@ -76,96 +68,116 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
 </ul>
 </div>
 </nav>
-<br/><br/>
 
-<!--
-<div class='container'>
-      <div class="row row-content">
-        <div class="col">
-<div id="carouselIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100 " src="./images/image2.jpg" alt="First slide">
-    </div> 
-    <div class="carousel-item">
-      <img class="d-block w-100 img-fluid" src="./images/image3.jpg" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100 img-fluid" src="./images/image4.jpg" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-</div>
-</div>
-</div>
+<header class='jumbotron'>
+    <div class="box">
+        <h1>ExplorAlly</h1>
+            <form action="" class="form-inline" method="GET">
+            <div class=" form-group mx-sm-3 mb-2">
+                <select name="city" id="city" class="form-control" placeholder="Choose a city">
+                    <option value="Allguides">All cities</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Manali">Manali</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Lucknow">Lucknow</option>
+                    <option value="Kanpur">Kanpur</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Pune">Pune</option>
+                </select>
+                <input type="submit" value="FILTER" class="btn btn-warning btn-md ml-auto">
+                </div>
+            </form>         
+            </div>
+</header>
 <br/>
--->
-
-<div class='container'>
-  <h2 style="text-align: center;">How This Works?</h2>
-
-    <div class='row'>
-        <div class=' col-md-6 order-sm-last col-sm-6'>
-        <img src="./images/image18.jpg" alt="image" width="auto" class="col-12">       
-     </div>
-        <div class='aboutpara col-12 col-sm-6 col-md-6 col-lg-6 text-justify'>
-            <h3>EXPLORERS</h3>
-            <p>
-                An user can simply go to the sign up page 
-                and create an account of their own.
-                They can discover various cities in the discover
-                section and can get to know more about
-                India and its cities. This city basically helps 
-                the user to get to know more and more 
-                about a city. Data collected from local people
-                 are presented in each city profile. One 
-                can approach a local guide through this website
-                 and actually visit the places. The filters
-                help with the sorting of guides of a particular city.
-                 Choose your next destination, fix a date
-                and set how much time you are going to spend in the city.
-                Pay your local guide with a smile.
-            </p>
+            <?php
+            if(isset($_GET['city'])){
+                $productbycity = $frnd_obj->productbycity($_GET['city']);
+                $city = $_GET['city'];
+                
+                if($city ==='Allguides' || $city==='') {       
+                    echo '<h1  style="text-align:center;">All Available Products</h1>
+                    <div class="container">';
+                        if($allproduct){
+                            echo'<div class="row main-row">';
+                            foreach($allproduct as $row){
+                                echo '<div class="col md-4 mb-5">
+                                <div class="card p-3" style="width: 18rem;">
+                                        <img class="card-img-top shadow" src="products/'.$row->productimage.'" alt="Profile image" >
+                                        <div class="card-body">
+                                        <h5 class="card-title">'.$row->productname.'</h5>
+                                        <p class="card-text">Rs '.$row->price.'</p>
+                                        <p class="card-text">'.$row->city.'</p>
+                                        <a href="productprofile.php?id='.$row->productid.'" class="btn btn-outline-dark">View Item</a>
+                                        </div>
+                                        </div>
+                                    </div>';
+                            }
+                            echo'</div></div>';
+                        }
+                        else{
+                            echo '<h3 class="nouser">No Product found!</h3><br/>';
+                        }
+                        echo'</div></div>';
+                    }
+                    else {
+                        echo '<h1 style="text-align:center;">To Shop from '.$city.'</h1>
+                        <div class="container">';
+                            if($productbycity){
+                                echo'<div class="row main-row">';
+                                foreach($productbycity as $row){
+                                    echo '<div class="col md-4 mb-5">
+                                    <div class="card p-3" style="width: 18rem;">
+                                            <img class="card-img-top shadow" src="products/'.$row->productimage.'" alt="Profile image" >
+                                            <div class="card-body">
+                                            <h5 class="card-title">'.$row->productname.'</h5>
+                                            <p class="card-text">Rs '.$row->price.'</p>
+                                            <p class="card-text">'.$row->city.'</p>
+                                            <a href="productprofile.php?id='.$row->productid.'" class="btn btn-outline-dark">View Item</a>
+                                            </div>
+                                            </div>
+                                        </div>';
+                                }
+                                echo'</div></div>';
+                            }
+                            else{
+                                echo '<h3 class="nouser">No Products found from this city!</h3><br/>';
+                            }
+                    }
+            }
+            else{
+                echo '<h1  style="text-align:center;">All Available Products</h1>
+                <div class="container">';
+                    if($allproduct){
+                        echo'<div class="row main-row">';
+                        foreach($allproduct as $row){
+                            echo '<div class="col md-4 mb-5">
+                            <div class="card p-3" style="width: 18rem;">
+                                    <img class="card-img-top shadow" src="products/'.$row->productimage.'" alt="Profile image" >
+                                    <div class="card-body">
+                                    <h5 class="card-title">'.$row->productname.'</h5>
+                                    <p class="card-text">Rs '.$row->price.'</p>
+                                    <p class="card-text">'.$row->city.'</p>
+                                    <a href="productprofile.php?id='.$row->productid.'" class="btn btn-outline-dark">View Item</a>
+                                    </div>
+                                    </div>
+                                </div>';
+                        }
+                        echo'</div></div>';
+                    }
+                    else{
+                        echo '<h3 class="nouser">No Product found!</h3><br/>';
+                    }
+                    echo'</div></div>';
+                }
+            
+                ?>
+         
         </div>
     </div>
-    <br/>
- <div class='row'> 
-    <div class=' col-md-6  order-sm-first col-sm-6'>
-        <img src="./images/image14.jpg" alt="image" class="col-12">
-    </div>
-    <div class='aboutpara col-12 col-sm-6 col-md-6 col-lg-6 text-justify'>
-        <h3>GUIDES</h3>
-        <p>
-            If you know your city well and love to interact with
-            new personalities and people, then Shoround provides
-            you an oppurtunity to earn money by doing it.
-            Just create your profile on Shoround.
-            As a guide you can login and view requests which are 
-            sent by the users of this website to you. The request
-            will consist of the date, time and the charge of the  
-            particular tour.You can see the user profiles for
-            his/her detail. If you are interested you can accept the
-            request and the booking will be done successfully. As soon as the 
-            user will get a notification, he/she will revert you back.
-            It's your time to make people fall in love with your city.
-        </p>
-    </div>
-</div>  
-</div>
-<br/>
 
 <footer id='contactus' class="footer">
         <div class="container">
@@ -196,7 +208,7 @@ $get_frnd_num = $frnd_obj->get_all_bookings($_SESSION['user_id'], false);
 		           </address>
                 </div>
                 <div class="col-12 offset-1 col-sm-4 align-self-center">
-                    <div class="text-center">
+                    <div class="text-center icon-bar">
                         <a class="btn btn-social-icon btn-google" href="http://google.com/+"><i class="fa fa-google-plus f-lag"></i></a>
                         <a class="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i class="fa fa-facebook f-lag"></i></a>
                         <a class="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i class="fa fa-linkedin f-lag"></i></a>
@@ -250,6 +262,10 @@ $(document).ready(function(){
       });
     } // End if
   });
+});
+
+$(window).scroll(function(){
+    $('nav').toggleClass('scrolled', $(this).scrollTop()>200);
 });
 </script>
 

@@ -119,7 +119,7 @@ $get_all_req_sender = $frnd_obj->request_notification($_SESSION['guide_id'], tru
 		              India<br>
 		              <i class="fa fa-phone f-lag"></i> : +91 90043770XX<br>
 		              <i class="fa fa-fax fa-lag"></i> : +91 98205702XX<br>
-		              <i class="fa fa-envelope fa-lag"></i> : <a href="mailto:shoround@gmail.com">shoround@gmail.com</a>
+		              <i class="fa fa-envelope fa-lag"></i> : <a href="mailto:explorally@gmail.com">explorally@gmail.com</a>
 		           </address>
                 </div>
                 <div class="col-12 offset-1 col-sm-4 align-self-center">
