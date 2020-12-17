@@ -40,32 +40,23 @@ h2{
     padding: 50px;
 }
 
-
-
-
-
-
-
-.places h3 {
+ h3 {
     color: purple !important;
     font-weight: bold;
-}
-
-.places h5 {
-	border-left-style: groove;
-	border-left-color: #7fff00;
-	border-left-width: 7px;
 }
 
 
 
 
 .imgplaces {
-    padding: 1px;
+    padding: 5px;
+    height: 200px !important;
+    object-fit: cover;
+    overflow: hidden;
+
+}
+ 
+.btn{
+    color: white;
 }
 
-
-.icon-bar {
-    background-color: white;
-    opacity: 0.5;
-}
